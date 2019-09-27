@@ -9,7 +9,8 @@ namespace Vuforia
 {
     public class GameManager : MonoBehaviour
     {
-
+        public GameObject AR_gun;
+        public GameObject Sniper;
         public GameObject[] enemies;
         public Vector3 spawnValues;
         public float spawnWait;
@@ -27,10 +28,8 @@ namespace Vuforia
         public GameObject bullet;
         private bool gun_ui = true;
         private float bulletSpeed= 1500f;
-        private int speed= 5;
+        private int speed= 10;
         public bool shoot=false;
-        public float fireRate = 1;
-        private float fireCoolDown = 0;
         void Start()
         {
             if (cam == null)
@@ -136,13 +135,11 @@ namespace Vuforia
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collider)
         {
-            if(collision.gameObject.tag=="Enemy")
-            {
-                Destroy(collision.gameObject);
-                Destroy(gameObject);
-            }
+            if(collider.gameObject.tag=="Enemy")
+                Destroy(collider.gameObject);
+             
         }
 
         
@@ -164,12 +161,16 @@ namespace Vuforia
 
         public void TapFireGun()
         {
+            Sniper.SetActive(true);
+            AR_gun.SetActive(false);
             contFire = false;
             tapFire = true;
         }
 
         public void ContFireGun()
         {
+            Sniper.SetActive(false);
+            AR_gun.SetActive(true);
             tapFire = false;
             contFire = true;
         }
